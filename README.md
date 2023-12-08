@@ -1,12 +1,12 @@
 # postgresql_docker_builder
 Build PostgreSQL (with 200+ extenstions and tools) DuckDB MySQL and so on into One docker image. It used for learn database easily only.
     
-Scripts in pg14_arm64 directory is used for build docker image with ARM64 chip.    
+`pg14_arm64` directory is used to build docker image for ARM64 chip.    
     
-Scripts in pg14_amd64 directory is used for build docker image with AMD64 chip.   
+`pg14_amd64` directory is used to build docker image for AMD64 chip.   
     
-# How to use the image?
-## AMD64 chip
+# How to use this image?
+## AMD64 chip's OS
 ```
 # 拉取镜像, 第一次拉取一次即可. 或者需要的时候执行, 将更新到最新镜像版本.  
 docker pull registry.cn-hangzhou.aliyuncs.com/digoal/opensource_database:pg14_with_exts  
@@ -25,7 +25,7 @@ docker exec -ti pg bash
 psql  
 ```
 
-## ARM64 chip
+## ARM64 chip's OS
 ```
 # 拉取镜像, 第一次拉取一次即可. 或者需要的时候执行, 将更新到最新镜像版本.  
 docker pull registry.cn-hangzhou.aliyuncs.com/digoal/opensource_database:pg14_with_exts_arm64  
