@@ -1,5 +1,5 @@
 # postgresql_docker_builder
-Build PostgreSQL (with 200+ extenstions and tools) DuckDB MySQL and so on into One docker image. It used for learn database easily only.
+Build PostgreSQL (with 200+ extenstions and tools) DuckDB MySQL and so on into One docker image. It used for learn database easily only. PostgreSQL is stable version, but some extension or tools not, please used carefully by yourself.  
     
 `pg14_arm64` directory is used to build docker image for ARM64 chip.    
     
@@ -54,56 +54,77 @@ The info contain how to build docker image, and PostgreSQL extensions and tools 
 ### image infomation until 20231208
 extensions:
 ```
-Display all 195 possibilities? (y or n)
-address_standardizer                            intagg                                          pg_prewarm                                      plr
-"address_standardizer-3"                        intarray                                        pg_proctab                                      pointcloud
-address_standardizer_data_us                    ip4r                                            pg_profile                                      pointcloud_postgis
-"address_standardizer_data_us-3"                isn                                             pg_qualstats                                    postgis
-adminpack                                       jsonb_plpython3u                                pg_query_rewrite                                "postgis-3"
-age                                             jsquery                                         pg_rational                                     postgis_raster
-aggs_for_vecs                                   lantern                                         pg_repack                                       "postgis_raster-3"
-amcheck                                         lantern_extras                                  pgroonga                                        postgis_sfcgal
-anon                                            lo                                              pgroonga_database                               "postgis_sfcgal-3"
-autoinc                                         ltree                                           pgrouting                                       postgis_tiger_geocoder
-aws_s3                                          ltree_plpython3u                                pgrowlocks                                      "postgis_tiger_geocoder-3"
-bloom                                           mimeo                                           pg_safer_settings                               postgis_topology
-btree_gin                                       moddatetime                                     pg_safer_settings_table_dependent_extension     "postgis_topology-3"
-btree_gist                                      mongo_fdw                                       pg_safer_settings_table_dependent_subextension  postgres_fdw
-citext                                          mysql_fdw                                       pg_search                                       powa
-citus                                           ogr_fdw                                         pgsentinel                                      prefix
-citus_columnar                                  old_snapshot                                    pg_show_plans                                   pre_prepare
-columnar                                        oracle_fdw                                      pg_similarity                                   prioritize
-credcheck                                       orafce                                          pgsodium                                        q3c
-cube                                            pageinspect                                     pg_sparse                                       quantile
-datasketches                                    parquet_fdw                                     pg_sphere                                       rdkit
-dblink                                          parray_gin                                      pg_squeeze                                      refint
-dblink_plus                                     pgagent                                         pg_stat_kcache                                  roaringbitmap
-ddlx                                            pgaudit                                         pg_stat_monitor                                 rum
-decoderbufs                                     pgautofailover                                  pg_stat_statements                              seg
-dict_int                                        pg_bigm                                         pgstattuple                                     smlar
-dict_xsyn                                       pg_bm25                                         pg_statviz                                      sqlite_fdw
-duckdb_fdw                                      pg_buffercache                                  pg_store_plans                                  sslinfo
-earthdistance                                   pg_bulkload                                     pg_surgery                                      tablefunc
-embedding                                       pg_cron                                         pgtap                                           table_log
-extra_window_functions                          pgcrypto                                        pg_task                                         tcn
-file_fdw                                        pg_curl                                         pgtelemetry                                     tdigest
-first_last_agg                                  pg_dbms_stats                                   pg_tiktoken                                     tds_fdw
-fuzzystrmatch                                   pg_dirtyread                                    pg_track_settings                               temporal_tables
-gevel                                           pgfaceting                                      pg_trgm                                         timescaledb
-h3                                              pgfincore                                       pgtt                                            timescaledb_toolkit
-h3_postgis                                      pg_freespacemap                                 pg_utility_trigger_functions                    toastinfo
-hdfs_fdw                                        pggraphblas                                     pg_uuidv7                                       tsm_system_rows
-hll                                             pg_hint_plan                                    pg_variables                                    tsm_system_time
-hnsw                                            pg_ivm                                          pg_visibility                                   uint
-hstore                                          pg_jieba                                        pg_wait_sampling                                unaccent
-hstore_pllua                                    pgjwt                                           pldbgapi                                        unit
-hstore_plluau                                   pgmemcache                                      pljava                                          "uuid-ossp"
-hstore_plpython3u                               pgmp                                            pllua                                           vector
-http                                            pg_net                                          plluau                                          vops
-hypopg                                          pg_onnx                                         plpgsql_check                                   xml2
-icu_ext                                         pgpool_adm                                      plprofiler                                      zhparser
-imgsmlr                                         pgpool_recovery                                 plproxy                                         zson
-insert_username                                 pgpool_regclass                                 plpython3u
+Display all 210 possibilities? (y or n)
+address_standardizer                            parquet_fdw                                     pgtelemetry
+"address_standardizer-3"                        parray_gin                                      pg_tiktoken
+address_standardizer_data_us                    pg4ml                                           pg_track_settings
+"address_standardizer_data_us-3"                pgagent                                         pg_trgm
+adminpack                                       pgaudit                                         pgtt
+age                                             pgautofailover                                  pg_utility_trigger_functions
+aggs_for_vecs                                   pg_bigm                                         pg_uuidv7
+amcheck                                         pg_bm25                                         pg_variables
+anon                                            pg_buffercache                                  pg_visibility
+autoinc                                         pg_bulkload                                     pg_wait_sampling
+aws_s3                                          pg_cron                                         pipelinedb
+bloom                                           pgcrypto                                        pldbgapi
+btree_gin                                       pg_curl                                         pljava
+btree_gist                                      pg_dbms_stats                                   pllua
+citext                                          pgdd                                            plluau
+citus                                           pg_dirtyread                                    plpgsql_check
+citus_columnar                                  pgfaceting                                      plprofiler
+columnar                                        pgfincore                                       plproxy
+credcheck                                       pg_freespacemap                                 plpython3u
+cube                                            pggraphblas                                     plr
+datasketches                                    pg_hint_plan                                    plrust
+dblink                                          pg_idkit                                        pointcloud
+dblink_plus                                     pg_ivm                                          pointcloud_postgis
+ddlx                                            pg_jieba                                        postgis
+decoderbufs                                     pg_jobmon                                       "postgis-3"
+dict_int                                        pgjwt                                           postgis_raster
+dict_xsyn                                       pgmemcache                                      "postgis_raster-3"
+duckdb_fdw                                      pg_migrate                                      postgis_sfcgal
+earthdistance                                   pgmp                                            "postgis_sfcgal-3"
+embedding                                       pg_nanoid                                       postgis_tiger_geocoder
+extra_window_functions                          pg_net                                          "postgis_tiger_geocoder-3"
+file_fdw                                        pg_onnx                                         postgis_topology
+first_last_agg                                  pg_partman                                      "postgis_topology-3"
+fuzzystrmatch                                   pgpcre                                          postgres_fdw
+gevel                                           pgpool_adm                                      powa
+h3                                              pgpool_recovery                                 prefix
+h3_postgis                                      pgpool_regclass                                 pre_prepare
+hdfs_fdw                                        pg_prewarm                                      prioritize
+hll                                             pg_proctab                                      q3c
+hnsw                                            pg_profile                                      quantile
+hstore                                          pg_qualstats                                    rdkit
+hstore_pllua                                    pg_query_rewrite                                refint
+hstore_plluau                                   pg_rational                                     roaringbitmap
+hstore_plpython3u                               pg_repack                                       rum
+http                                            pgroonga                                        seg
+hypopg                                          pgroonga_database                               smlar
+icu_ext                                         pgrouting                                       sqlite_fdw
+imgsmlr                                         pgrowlocks                                      sslinfo
+insert_username                                 pg_safer_settings                               svector
+intagg                                          pg_safer_settings_table_dependent_extension     tablefunc
+intarray                                        pg_safer_settings_table_dependent_subextension  table_log
+ip4r                                            pg_search                                       tcn
+isn                                             pgsentinel                                      tdigest
+jsonb_plpython3u                                pg_show_plans                                   tds_fdw
+jsquery                                         pg_similarity                                   temporal_tables
+lantern                                         pgsodium                                        timescaledb
+lantern_extras                                  pg_sparse                                       timescaledb_toolkit
+lo                                              pg_sphere                                       toastinfo
+ltree                                           pg_squeeze                                      tsm_system_rows
+ltree_plpython3u                                pg_stat_kcache                                  tsm_system_time
+mimeo                                           pg_stat_monitor                                 uint
+mobilitydb                                      pg_stat_statements                              ulid
+moddatetime                                     pgstattuple                                     unaccent
+mongo_fdw                                       pg_statviz                                      unit
+mysql_fdw                                       pg_store_plans                                  "uuid-ossp"
+ogr_fdw                                         pg_subtrans_infos                               vector
+old_snapshot                                    pg_subxact_counters                             vops
+oracle_fdw                                      pg_surgery                                      xml2
+orafce                                          pgtap                                           zhparser
+pageinspect                                     pg_task                                         zson
 ```
 
 ### tools and extensions description
@@ -121,7 +142,10 @@ insert_username                                 pgpool_regclass                 
 - unit, 支持很多国际单位的类型
 - pg_uuidv7, A tiny Postgres extension to create version 7 UUIDs
 - zson, ZSON is a PostgreSQL extension for transparent JSONB compression
-- uint, 无符号整型
+- uint, 无符号整型.
+- nanoid, nanoid类型.
+- ulid, 半高uuid类型.
+- snowflake, snowflakeID 分布式数据库全局唯一ID生成器, 比UUID效率高. 
   
 函数增强  
 - extra-window-functions, 扩展窗口函数  
@@ -132,6 +156,8 @@ insert_username                                 pgpool_regclass                 
 - aggs_for_vecs, 数组类型聚合函数扩展.  
 - quantile, 统计分析相关聚合函数扩展.
 - pgjwt, JSON 值转储格式: JSON Web Tokens
+- pg_idkit, 集成了大量UUID方法和函数.
+- pgpcre, 正则. This is a module for PostgreSQL that exposes Perl-compatible regular expressions (PCRE) functionality as functions and operators. 
   
 近似统计分析  
 - hll, 近似分析, 例如滑动窗口UV, 短视频场景存储已读列表+快速过滤已读视频  
@@ -163,7 +189,10 @@ insert_username                                 pgpool_regclass                 
 - madlib, 机器学习分析库  
 - pg_variables, 会话或事务级内存变量, 例如用于计数器、需要在会话|事务中存储临时值的场景.  
 - temporal_tables, 自动按字段时间归档历史数据.  
-- pgtt, 全局临时表, 类似Oracle 全局临时表的风格.  
+- pgtt, 全局临时表, 类似Oracle 全局临时表的风格.
+- pipelinedb, 流计算.
+- pg4ml, 使用 plpgsql 编写的机器学习框架.
+- PGMQ, pg消息队列. 
   
 空间业务场景  
 - pgrouting, 路由算法  
@@ -176,16 +205,19 @@ insert_username                                 pgpool_regclass                 
 - postgis-3-scripts  
 - ip4r, IP转地理位置信息  
 - h3, h3_postgis, uber开源的基于H3模型的地图相关插件.  
+- MobilityDB, An open source geospatial trajectory data management & analysis platform. https://github.com/MobilityDB/MobilityDB
   
 向量搜索  
 - similarity, 近似算法, 类型+索引  
 - imgsmlr, 图像搜索, 类型+索引  
 - pgvector, 向量搜索, 类型+索引(ivfflat、hnsw)
-- pg_sparse, paradedb开源. 稀疏向量搜索 
+- pg_sparse, paradedb开源. 稀疏向量搜索. 使用rust编写. 
+- svector, paradedb开源. 稀疏向量搜索(就是pg_sparse, 更名为svector). 使用c编写.  https://docs.paradedb.com/blog/introducing_sparse   
 - hnsw, 向量搜索, 类型+索引(hnsw)  
 - pg_embedding, 向量搜索, 类型+索引(hnsw)  
 - lantern, 向量搜索, 类型+索引(usearch implemented hnsw)
-- lantern_extras, lantern辅助插件: 数据库内置大模型, 外接大模型, 文本|图像向量化, 加速向量索引build等. 
+- lantern_extras, lantern辅助插件: 数据库内置大模型, 外接大模型, 文本|图像向量化, 加速向量索引build等.
+- vectorize, 结合pgvector和OpenAI的应用解决方案型插件, 实现db4ai, ai4db的应用. 
   
 文本场景增强  
 - prefix, 前缀范围模型  
@@ -231,7 +263,8 @@ insert_username                                 pgpool_regclass                 
 - plv8, google v8存储过程和函数语言.    (未集成, 未来可以通过apt安装)  
 - plpython3, python存储过程和函数语言  
 - plr, R存储过程和函数语言  
-- plprofiler, 存储过程和函数的性能分析功能  
+- plprofiler, 存储过程和函数的性能分析功能
+- plrust, rust存储过程语言支持
   
 安全增强  
 - postgresql_anonymizer, 敏感信息遮蔽  
@@ -256,7 +289,8 @@ insert_username                                 pgpool_regclass                 
 - pg_stats_reporter, pg_statsinfo报告的网页呈现, 更加美观, 类似awr效果.
 - pgtelemetry, 一些DBA常用的监控数据库和操作系统运行状态的视图. 
 - pgfincore, 修改数据文件的page cache行为  
-- repack, 几乎不影响业务的收缩膨胀的表和索引浪费的存储空间
+- pg_repack, 几乎不影响业务的收缩膨胀的表和索引浪费的存储空间
+- pg_migrate, online DDL, fork自pg_repack, 实现最短时间持有排他锁的DDL, DDL过程中支持DML.  
 - squeeze, 几乎不影响业务的收缩膨胀的表和索引浪费的存储空间, 支持设置阈值, 自动调度.
 - pgagent, 定时任务  
 - pg_cron, 定时任务  
@@ -294,6 +328,17 @@ insert_username                                 pgpool_regclass                 
 - pghero, A performance dashboard for Postgres. https://github.com/ankane/pghero
 - ora2pg, oracle,mysql迁移到postgresql的工具
 - pgloader, 使用fdw读取其他数据库的数据, 并快速迁移到PostgreSQL的迁移工具
+- pgreplay, 回放postgresql log的工具. 需要开启log_statements.
+- pg_subtrans_infos, 查看子事务信息
+- pg_subxact_counters, 统计子事务
+- pgbackrest, 备份管理工具.
+- elephant-shed-pgbackrest, PG备份管理工具pgbackrest web控制台, 同时集成了一些有趣的工具
+- PgDD, PostgreSQL Data Dictionary for 开发者, 快速了解数据库概貌. https://github.com/rustprooflabs/pgdd
+- pg_partman, Partition management extension for PostgreSQL   
+- pg_filedump, pg_filedump is a utility to format PostgreSQL heap/index/control files into a human-readable form.
+- pg_partman, Partition management extension for PostgreSQL
+- pg_jobmon, PostgreSQL extension which provides persistent logging within transactions and functions. 事务即使回滚也能留下数据, 使用的是dblink外部事务实现.
+- pgroll, PostgreSQL zero-downtime migrations made easy  
   
 连接池和读写分离  
 - pgpool2, 连接池和读写分离  
@@ -364,10 +409,12 @@ https://github.com/babelfish-for-postgresql/babelfish_compass/releases
 Ora2Pg, 迁移Oracle, MySQL到PostgreSQL的工具  
 https://github.com/darold/ora2pg  
   
-pg_later, PG 异步SQL执行插件.  
+pg_later, PG 异步SQL执行插件.
+已集成到docker image
 https://github.com/tembo-io/pg_later
 
 PGMQ, pg消息队列
+已集成到docker image
 https://github.com/tembo-io/pgmq
 https://tembo.io/blog/introducing-pgmq/#using-pgmq
 
@@ -401,7 +448,8 @@ onnx model, 已有大模型
 https://github.com/onnx/models
 https://onnxruntime.ai/
 
-pg4ml, 开放的神经网络算法库. 郭铁成老师主导, 内容非常丰富. 即将集成
+pg4ml, 开放的神经网络算法库. 郭铁成老师主导, 内容非常丰富. 
+已集成到docker image
 https://gitee.com/seanguo_007/plpgsql_pg4ml
 
 orc_fdw, 访问ORC格式列存储文件
@@ -421,5 +469,18 @@ https://www.cybertec-postgresql.com/en/introducing-pg_timetable-v5-6-delayed-cha
 
 partoni, A template for PostgreSQL High Availability with Etcd, Consul, ZooKeeper, or Kubernetes
 https://github.com/zalando/patroni  
+  
+walminer, 解析wal的工具
+https://gitee.com/movead/XLogMiner
+
+pgroll, PostgreSQL zero-downtime migrations made easy
+已集成到docker image
+https://xata.io/blog/pgroll-schema-migrations-postgres
+https://github.com/xataio/pgroll
+https://github.com/xataio/pgroll/releases
+
+pgmonitor, crunchydata提供的监控解决方案
+https://access.crunchydata.com/documentation/pgmonitor/latest/
+https://github.com/CrunchyData/pgmonitor
 ```  
   
