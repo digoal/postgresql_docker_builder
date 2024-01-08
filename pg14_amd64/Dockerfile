@@ -6,7 +6,7 @@ RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
 ENV DEBIAN_FRONTEND=noninteractive TEMP_DIR=/tmp ROOT_HOME=/root PG_HOME=/var/lib/postgresql PG_DATA=/var/lib/postgresql/14/pgdata PGHOME=/usr/lib/postgresql/14  
 STOPSIGNAL SIGINT  
 COPY --chmod=555 1.sh 2.sh 3.sh 4.sh 5.sh $TEMP_DIR/  
-COPY GraphBLAS-3.1.1.tar.gz libduckdb-linux-amd64.zip duckdb_cli-linux-amd64.zip cmake-3.27.4.tar.gz mongo-c-driver-1.17.3.tar.gz json-c-0.15-20200726.tar.gz pg_tiktoken--0.0.1.sql pg_tiktoken.control pg_tiktoken.so lantern_extras--0.0.3.sql lantern_extras.control lantern_extras.so lantern-cli onnxruntime-linux-x64-1.15.1.tgz node-v14.21.3.tar.gz pg_bm25.control pg_bm25.so pg_bm25--0.0.0.sql pg_search.control pg_search.so pg_search--0.0.0.sql pg_sparse.so pg_sparse.control pg_sparse--0.0.0.sql pg_task.so pg_task.index.bc pg_task.control pg_task--1.0.sql $TEMP_DIR/
+COPY GraphBLAS-3.1.1.tar.gz libduckdb-linux-amd64.zip duckdb_cli-linux-amd64.zip cmake-3.27.4.tar.gz mongo-c-driver-1.17.3.tar.gz json-c-0.15-20200726.tar.gz pg_tiktoken--0.0.1.sql pg_tiktoken.control pg_tiktoken.so lantern_extras--0.0.3.sql lantern_extras.control lantern_extras.so lantern-cli onnxruntime-linux-x64-1.15.1.tgz node-v14.21.3.tar.gz pg_bm25.control pg_bm25.so pg_bm25--0.4.3.sql pg_search.control pg_search.so pg_search--0.0.0.sql pg_sparse.so pg_sparse.control pg_sparse--0.0.0.sql pg_task.so pg_task.index.bc pg_task.control pg_task--1.0.sql pg_idkit--0.2.1.sql pg_idkit.control pg_idkit.so pgdd--0.5.2.sql pgdd.control pgdd.so pghero_3.4.0-1701207987.0382b812.bullseye_amd64.deb plrust-trusted-1.2.7_1.72.0-debian-pg14-amd64.deb pgroll pgmq.control pgmq--1.1.1.sql pgmq.so pg_later.control pg_later.so pg_later--0.0.13.sql vectorize.control vectorize.so vectorize--0.7.0.sql $TEMP_DIR/
 RUN mkdir /tmp/pg_task 
 COPY pg_task /tmp/pg_task 
   
@@ -86,10 +86,12 @@ USER postgres
 RUN $TEMP_DIR/5.sh
   
 WORKDIR $PG_HOME  
-# RUN wget -T 36000 -t 0 --waitretry=5 https://github.com/duckdb/duckdb/releases/download/v0.9.1/duckdb_cli-linux-amd64.zip  
-# RUN curl -Z --connect-timeout 120 -m 36000 --retry 12000 --retry-delay 5 --retry-max-time 1200 -L https://github.com/duckdb/duckdb/releases/download/v0.9.1/duckdb_cli-linux-amd64.zip -o duckdb_cli-linux-amd64.zip  
+# RUN wget -T 36000 -t 0 --waitretry=5 https://github.com/duckdb/duckdb/releases/download/v0.9.2/duckdb_cli-linux-amd64.zip  
+# RUN curl -Z --connect-timeout 120 -m 36000 --retry 12000 --retry-delay 5 --retry-max-time 1200 -L https://github.com/duckdb/duckdb/releases/download/v0.9.2/duckdb_cli-linux-amd64.zip -o duckdb_cli-linux-amd64.zip  
 RUN cp $TEMP_DIR/duckdb_cli-linux-amd64.zip $PG_HOME/  
-RUN unzip -d . duckdb_cli-linux-amd64.zip  
+RUN unzip -d . duckdb_cli-linux-amd64.zip
+
+RUN cp $TEMP_DIR/pgroll $PG_HOME/ 
   
 USER root  
 WORKDIR $ROOT_HOME  
