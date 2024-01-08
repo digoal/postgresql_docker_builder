@@ -28,35 +28,14 @@ apt-get install -y postgresql-14-pljava postgresql-14-pllua postgresql-14-plpgsq
 apt-get install -y postgresql-14-rdkit postgresql-14-orafce postgresql-14-pg-qualstats postgresql-14-pg-stat-kcache  
 apt-get install -y postgresql-14-pg-wait-sampling postgresql-14-pgfincore postgresql-14-pgaudit postgresql-14-pgpool2 postgresql-14-pgrouting postgresql-14-pgrouting-doc  
 apt-get install -y postgresql-14-pgrouting-scripts postgresql-14-pgsphere postgresql-14-pgvector postgresql-14-pldebugger postgresql-14-pointcloud postgresql-14-plr  
-apt-get install -y postgresql-14-postgis-3 postgresql-14-postgis-3-scripts postgresql-14-powa postgresql-14-q3c postgresql-14-repack  
+apt-get install -y postgresql-14-postgis-3 postgresql-14-postgis-3-scripts postgresql-14-powa powa-collector postgresql-14-q3c postgresql-14-repack  
 apt-get install -y postgresql-14-rum postgresql-14-show-plans postgresql-14-similarity postgresql-14-tablelog postgresql-14-tdigest postgresql-14-wal2json  
 apt-get install -y postgresql-14-tds-fdw postgresql-14-plprofiler postgresql-14-cron  
-apt-get install -y pgagroal pgpool2 pgbouncer pgxnclient pgagent postgresql-plpython3-14 postgresql-14-icu-ext libpq-dev
+apt-get install -y pgagroal pgpool2 pgbouncer pgxnclient pgagent postgresql-plpython3-14 postgresql-14-icu-ext libpq-dev pgreplay pgbackrest pgbackrest-doc elephant-shed-pgbackrest postgresql-14-partman 
 
 # pghero 目前仅支持x86版本
-# https://dl.packager.io/srv/pghero/pghero/key 需要开网络授权, 否则无法访问. build image将失败. 
-cd /tmp
-wget -T 36000 -t 0 --waitretry=5 -qO- https://dl.packager.io/srv/pghero/pghero/key | apt-key add -
-# wget -T 36000 -t 0 --waitretry=5 -O /etc/apt/sources.list.d/pghero.list https://dl.packager.io/srv/pghero/pghero/master/installer/debian/$(. /etc/os-release && echo $VERSION_ID).repo
-echo "deb https://dl.packager.io/srv/deb/pghero/pghero/master/debian 11 main" > /etc/apt/sources.list.d/pghero.list
-#apt-get update
-#apt-get -y install pghero
-for ((i=1;i>=0;i=1))
-do
-  apt-get update
-  if [ $? -eq 0 ]; then
-    break 
-  fi
-done
-
-     
-for ((i=1;i>=0;i=1))
-do
-  apt-get -y install pghero
-  if [ $? -eq 0 ]; then
-    break 
-  fi
-done
+cd /tmp  
+dpkg -i pghero_3.4.0-1701207987.0382b812.bullseye_amd64.deb
   
 echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/timescaledb.list  
 wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | gpg --dearmor -o /etc/apt/trusted.gpg.d/timescaledb.gpg  
@@ -68,11 +47,13 @@ apt-get install -y -V ./groonga-apt-source-latest-bullseye.deb
 apt-get update  
 apt-get install -y postgresql-14-pgdg-pgroonga
 
-apt-get install -y postgresql-14-credcheck postgresql-14-decoderbufs postgresql-14-mimeo postgresql-14-pgmp postgresql-14-preprepare postgresql-14-prioritize postgresql-14-squeeze postgresql-14-toastinfo postgresql-14-unit pgbadger pg-auto-failover-cli postgresql-14-auto-failover net-tools apt-utils ora2pg
+apt-get install -y postgresql-14-credcheck postgresql-14-decoderbufs postgresql-14-mimeo postgresql-14-pgmp postgresql-14-preprepare postgresql-14-prioritize postgresql-14-squeeze postgresql-14-toastinfo postgresql-14-unit pgbadger pg-auto-failover-cli postgresql-14-auto-failover net-tools apt-utils ora2pg pgloader
 
 # https://dev.mysql.com/downloads/repo/apt/
 cd /tmp
-wget -T 36000 -t 0 --waitretry=5 https://repo.mysql.com//mysql-apt-config_0.8.28-1_all.deb
-dpkg -i mysql-apt-config_0.8.28-1_all.deb
+wget -T 36000 -t 0 --waitretry=5 https://repo.mysql.com//mysql-apt-config_0.8.29-1_all.deb
+dpkg -i mysql-apt-config_0.8.29-1_all.deb
+# https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/  add gpg key
+apt-key adv --keyserver pgp.mit.edu --recv-keys A8D3785C
 apt-get update
 apt-get install -y mysql-server
