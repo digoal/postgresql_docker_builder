@@ -28,10 +28,10 @@ apt-get install -y postgresql-14-pljava postgresql-14-pllua postgresql-14-plpgsq
 apt-get install -y postgresql-14-rdkit postgresql-14-orafce postgresql-14-pg-qualstats postgresql-14-pg-stat-kcache  
 apt-get install -y postgresql-14-pg-wait-sampling postgresql-14-pgfincore postgresql-14-pgaudit postgresql-14-pgpool2 postgresql-14-pgrouting postgresql-14-pgrouting-doc  
 apt-get install -y postgresql-14-pgrouting-scripts postgresql-14-pgsphere postgresql-14-pgvector postgresql-14-pldebugger postgresql-14-pointcloud postgresql-14-plr  
-apt-get install -y postgresql-14-postgis-3 postgresql-14-postgis-3-scripts postgresql-14-powa postgresql-14-q3c postgresql-14-repack  
+apt-get install -y postgresql-14-postgis-3 postgresql-14-postgis-3-scripts postgresql-14-powa powa-collector postgresql-14-q3c postgresql-14-repack  
 apt-get install -y postgresql-14-rum postgresql-14-show-plans postgresql-14-similarity postgresql-14-tablelog postgresql-14-tdigest postgresql-14-wal2json  
 apt-get install -y postgresql-14-tds-fdw postgresql-14-plprofiler postgresql-14-cron  
-apt-get install -y pgagroal pgpool2 pgbouncer pgxnclient pgagent postgresql-plpython3-14 postgresql-14-icu-ext libpq-dev  
+apt-get install -y pgagroal pgpool2 pgbouncer pgxnclient pgagent postgresql-plpython3-14 postgresql-14-icu-ext libpq-dev pgreplay pgbackrest pgbackrest-doc elephant-shed-pgbackrest 
   
 echo "deb https://packagecloud.io/timescale/timescaledb/debian/ $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/timescaledb.list  
 wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | gpg --dearmor -o /etc/apt/trusted.gpg.d/timescaledb.gpg  
@@ -43,7 +43,7 @@ apt-get install -y -V ./groonga-apt-source-latest-bullseye.deb
 apt-get update  
 apt-get install -y postgresql-14-pgdg-pgroonga
 
-apt-get install -y postgresql-14-credcheck postgresql-14-decoderbufs postgresql-14-mimeo postgresql-14-pgmp postgresql-14-preprepare postgresql-14-prioritize postgresql-14-squeeze postgresql-14-toastinfo postgresql-14-unit pgbadger pg-auto-failover-cli postgresql-14-auto-failover net-tools apt-utils ora2pg pgloader
+apt-get install -y postgresql-14-credcheck postgresql-14-decoderbufs postgresql-14-mimeo postgresql-14-pgmp postgresql-14-preprepare postgresql-14-prioritize postgresql-14-squeeze postgresql-14-toastinfo postgresql-14-unit pgbadger pg-auto-failover-cli postgresql-14-auto-failover net-tools apt-utils ora2pg pgloader postgresql-14-partman
 
 # 包安装方式暂不支持ARM架构
 # https://dev.mysql.com/downloads/repo/apt/
