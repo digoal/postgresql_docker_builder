@@ -33,12 +33,15 @@ USE_PGXS=1 make
 USE_PGXS=1 make install  
   
 cd $TEMP_DIR  
-git clone --depth 1 https://github.com/alitrack/duckdb_fdw  
-cd $TEMP_DIR/duckdb_fdw  
-# wget -T 36000 -t 0 --waitretry=5 https://github.com/duckdb/duckdb/releases/download/v0.9.1/libduckdb-linux-aarch64.zip  
-# curl -Z --connect-timeout 120 -m 36000 --retry 12000 --retry-delay 5 --retry-max-time 1200 -L https://github.com/duckdb/duckdb/releases/download/v0.9.1/libduckdb-linux-aarch64.zip -o libduckdb-linux-aarch64.zip  
+git clone --depth 1 https://github.com/alitrack/duckdb_fdw
+# 14版本 bug fix 之前
+# git clone  https://github.com/alitrack/duckdb_fdw
+cd $TEMP_DIR/duckdb_fdw
+# git checkout 87c66cf04243c7bc43e0e75d0b8ce5dd76d81cd5
+# wget -T 36000 -t 0 --waitretry=5 https://github.com/duckdb/duckdb/releases/download/v0.9.2/libduckdb-linux-aarch64.zip  
+# curl -Z --connect-timeout 120 -m 36000 --retry 12000 --retry-delay 5 --retry-max-time 1200 -L https://github.com/duckdb/duckdb/releases/download/v0.9.2/libduckdb-linux-aarch64.zip -o libduckdb-linux-aarch64.zip  
 cp $TEMP_DIR/libduckdb-linux-aarch64.zip $TEMP_DIR/duckdb_fdw/  
-unzip -d . libduckdb-linux-aarch64.zip  
+unzip -n -d . libduckdb-linux-aarch64.zip  
 cp libduckdb.so $(pg_config --libdir)  
 USE_PGXS=1 make  
 USE_PGXS=1 make install  
@@ -188,9 +191,9 @@ make install
   
 cd $TEMP_DIR  
 apt-get install -y libboost-all-dev  
-wget -T 36000 -t 0 --waitretry=5 https://api.pgxn.org/dist/datasketches/1.6.0/datasketches-1.6.0.zip  
-unzip datasketches-1.6.0.zip  
-cd $TEMP_DIR/datasketches-1.6.0  
+wget -T 36000 -t 0 --waitretry=5 https://api.pgxn.org/dist/datasketches/1.7.0/datasketches-1.7.0.zip  
+unzip datasketches-1.7.0.zip  
+cd $TEMP_DIR/datasketches-1.7.0  
 USE_PGXS=1 make  
 USE_PGXS=1 make install  
   
@@ -247,9 +250,9 @@ USE_PGXS=1 make install
   
 cd $TEMP_DIR  
 apt-get install -y libcurl-ocaml-dev  
-wget -T 36000 -t 0 --waitretry=5 https://api.pgxn.org/dist/pg_curl/2.2.0/pg_curl-2.2.0.zip  
-unzip pg_curl-2.2.0.zip  
-cd $TEMP_DIR/pg_curl-2.2.0  
+wget -T 36000 -t 0 --waitretry=5 https://api.pgxn.org/dist/pg_curl/2.2.2/pg_curl-2.2.2.zip  
+unzip pg_curl-2.2.2.zip  
+cd $TEMP_DIR/pg_curl-2.2.2  
 USE_PGXS=1 make install  
   
 cd $TEMP_DIR  
@@ -281,7 +284,7 @@ cd $TEMP_DIR/temporal_tables-1.2.2
 USE_PGXS=1 make install  
   
 cd $TEMP_DIR  
-git clone --depth 1 -b v3.0 https://github.com/darold/pgtt  
+git clone --depth 1 -b v3.1 https://github.com/darold/pgtt  
 cd $TEMP_DIR/pgtt  
 USE_PGXS=1 make install  
   
@@ -434,12 +437,6 @@ git clone --depth 1 https://github.com/postgresml/pgcat
 cd $TEMP_DIR/pgcat  
 cargo build --release  
   
-# cd $TEMP_DIR  
-# git clone --depth 1 https://github.com/tembo-io/pg_later
-# https://github.com/tembo-io/pg_later/blob/main/CONTRIBUTING.md
-# cd $TEMP_DIR/pg_later  
-# cargo build --release
-
 cd $TEMP_DIR
 git clone --depth 1 https://github.com/chimpler/postgres-aws-s3
 cd $TEMP_DIR/postgres-aws-s3
@@ -457,7 +454,12 @@ apt-get install -y npm
 # cd node-v14.21.3
 # ./configure
 # CC=clang CXX=clang++ make -j 4
-# CC=clang CXX=clang++ make install 
+# CC=clang CXX=clang++ make install
+npm config set registry https://registry.npmmirror.com
+npm config set fetch-retries 100
+npm config set fetch-retry-mintimeout 120000
+npm config set fetch-retry-maxtimeout 60000000
+npm config set cache-min 3600
 npm i pm2
 cd $TEMP_DIR
 git clone --depth 1 https://github.com/apache/age-viewer
@@ -524,7 +526,7 @@ cp lantern-cli /var/lib/postgresql/
 chown postgres:postgres /var/lib/postgresql/lantern-cli
    
 cd $TEMP_DIR
-git clone --depth 1 -b v1.0.2 https://github.com/hydradatabase/hydra
+git clone --depth 1 -b v1.1.0 https://github.com/hydradatabase/hydra
 cd $TEMP_DIR/hydra/columnar
 ./configure
 USE_PGXS=1 make install
@@ -554,8 +556,23 @@ cmake --build build --target pg_onnx --parallel 4
 cmake --install build/pg_onnx
 
 cd $TEMP_DIR
-curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
-apt-get install -y git-lfs
+# curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+# apt-get install -y git-lfs
+for ((i=1;i>=0;i=1))
+do
+  curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
+  if [ $? -eq 0 ]; then
+    break 
+  fi
+done
+  
+for ((i=1;i>=0;i=1))
+do
+  apt-get install -y git-lfs
+  if [ $? -eq 0 ]; then
+    break 
+  fi
+done
   
 cd $TEMP_DIR
 GIT_LFS_SKIP_SMUDGE=1 git clone --depth 1 https://github.com/onnx/models
@@ -567,32 +584,74 @@ git clone --depth 1 https://github.com/fboulnois/pg_uuidv7
 cd $TEMP_DIR/pg_uuidv7
 USE_PGXS=1 make install
 
-apt-get install -y libcurl4-openssl-dev uuid-dev libpulse-dev 
+# apt-get install -y libcurl4-openssl-dev uuid-dev libpulse-dev 
+# cd $TEMP_DIR
+# # git clone --depth 1 -b apache-arrow-12.0.1 https://github.com/apache/arrow.git
+# git clone --depth 1 -b apache-arrow-14.0.2 https://github.com/apache/arrow.git 
+# cd $TEMP_DIR/arrow/cpp  
+# mkdir build-release  
+# cd $TEMP_DIR/arrow/cpp/build-release  
+# 
+# # build选项: https://arrow.apache.org/docs/developers/cpp/building.html 
+# for ((i=1;i>=0;i=1))
+# do
+#   # cmake -DARROW_DEPENDENCY_SOURCE=BUNDLED -DARROW_PARQUET=ON -DARROW_ORC=ON -DARROW_S3=ON -DARROW_WITH_LZ4=ON -DARROW_WITH_SNAPPY=ON -DARROW_WITH_ZLIB=ON -DARROW_WITH_ZSTD=ON -DPARQUET_REQUIRE_ENCRYPTION=ON  ..
+#   cmake -DARROW_DEPENDENCY_SOURCE=BUNDLED -DARROW_PARQUET=ON .. 
+#   if [ $? -eq 0 ]; then
+#     break 
+#   fi
+# done
+# 
+# for ((i=1;i>=0;i=1))
+# do
+#   make -j4  
+#   if [ $? -eq 0 ]; then
+#     break 
+#   fi
+# done
+# 
+# make install  
+# ldconfig 
+
+# https://arrow.apache.org/install/
 cd $TEMP_DIR
-git clone --depth 1 -b apache-arrow-12.0.1 https://github.com/apache/arrow.git  
-cd $TEMP_DIR/arrow/cpp  
-mkdir build-release  
-cd $TEMP_DIR/arrow/cpp/build-release  
-
+apt-get install -y libcurl4-openssl-dev uuid-dev libpulse-dev 
 for ((i=1;i>=0;i=1))
 do
-  cmake -DARROW_DEPENDENCY_SOURCE=BUNDLED -DARROW_PARQUET=ON -DARROW_ORC=ON -DARROW_S3=ON -DARROW_WITH_LZ4=ON -DARROW_WITH_SNAPPY=ON -DARROW_WITH_ZLIB=ON -DARROW_WITH_ZSTD=ON -DPARQUET_REQUIRE_ENCRYPTION=ON  ..
-  # cmake -DARROW_DEPENDENCY_SOURCE=BUNDLED -DARROW_PARQUET=ON .. 
+  apt-get update
   if [ $? -eq 0 ]; then
     break 
   fi
 done
-
+apt install -y -V ca-certificates lsb-release 
 for ((i=1;i>=0;i=1))
 do
-  make -j4  
+  wget -T 36000 -t 0 --waitretry=5 https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
   if [ $? -eq 0 ]; then
     break 
   fi
 done
-
-make install  
-ldconfig 
+apt-get install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+for ((i=1;i>=0;i=1))
+do
+  apt-get update
+  if [ $? -eq 0 ]; then
+    break 
+  fi
+done
+apt-get install -y -V libarrow-dev # For C++
+apt-get install -y -V libarrow-glib-dev # For GLib (C)
+apt-get install -y -V libarrow-dataset-dev # For Apache Arrow Dataset C++
+apt-get install -y -V libarrow-dataset-glib-dev # For Apache Arrow Dataset GLib (C)
+apt-get install -y -V libarrow-acero-dev # For Apache Arrow Acero
+apt-get install -y -V libarrow-flight-dev # For Apache Arrow Flight C++
+apt-get install -y -V libarrow-flight-glib-dev # For Apache Arrow Flight GLib (C)
+apt-get install -y -V libarrow-flight-sql-dev # For Apache Arrow Flight SQL C++
+apt-get install -y -V libarrow-flight-sql-glib-dev # For Apache Arrow Flight SQL GLib (C)
+apt-get install -y -V libgandiva-dev # For Gandiva C++
+apt-get install -y -V libgandiva-glib-dev # For Gandiva GLib (C)
+apt-get install -y -V libparquet-dev # For Apache Parquet C++
+apt-get install -y -V libparquet-glib-dev # For Apache Parquet GLib (C)
 
 cd $TEMP_DIR
 git clone --depth 1 https://github.com/adjust/parquet_fdw 
@@ -612,7 +671,7 @@ USE_PGXS=1 make
 USE_PGXS=1 make install
 
 cd $TEMP_DIR
-cp pg_bm25--0.0.0.sql /usr/share/postgresql/14/extension/
+cp pg_bm25--0.4.3.sql /usr/share/postgresql/14/extension/
 cp pg_bm25.control /usr/share/postgresql/14/extension/
 cp pg_bm25.so /usr/lib/postgresql/14/lib/
 
@@ -663,6 +722,109 @@ make install
 cd $TEMP_DIR
 git clone --depth 1 https://github.com/petere/pguint
 cd $TEMP_DIR/pguint
+USE_PGXS=1 make install
+
+cd $TEMP_DIR 
+git clone --depth 1 -b v0.4.3 https://github.com/paradedb/paradedb
+cd $TEMP_DIR/paradedb/pg_sparse
+USE_PGXS=1 make install
+chmod 644 ./sql/svector--0.4.1.sql
+cp ./sql/svector--0.4.1.sql /usr/share/postgresql/14/extension/
+
+cd $TEMP_DIR 
+git clone --depth 1 https://github.com/bdrouvot/pg_subtrans_infos
+cd $TEMP_DIR/pg_subtrans_infos
+USE_PGXS=1 make install
+
+cd $TEMP_DIR 
+git clone --depth 1 https://github.com/bdrouvot/pg_subxact_counters
+cd $TEMP_DIR/pg_subxact_counters/c
+USE_PGXS=1 make install
+  
+cd $TEMP_DIR
+cp pg_idkit--0.2.1.sql /usr/share/postgresql/14/extension/
+cp pg_idkit.control /usr/share/postgresql/14/extension/
+cp pg_idkit.so /usr/lib/postgresql/14/lib/
+  
+cd $TEMP_DIR    
+apt-get install -y build-essential libproj-dev libjson-c-dev libgsl-dev libgeos-dev
+git clone --depth 1 https://github.com/MobilityDB/MobilityDB    
+cd $TEMP_DIR/MobilityDB    
+mkdir build    
+cd $TEMP_DIR/MobilityDB/build    
+cmake ..    
+make -j 4   
+make install   
+  
+cd $TEMP_DIR    
+cp pgdd--0.5.2.sql /usr/share/postgresql/14/extension/    
+cp pgdd.control /usr/share/postgresql/14/extension/    
+cp pgdd.so /usr/lib/postgresql/14/lib/
+
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/PGer/pipelinedb_pg14.git
+cd $TEMP_DIR/pipelinedb_pg14
+apt-get install -y libczmq4 libczmq-dev
+USE_PGXS=1 make install
+
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/jaiminpan/pg_nanoid.git
+cd $TEMP_DIR/pg_nanoid
+USE_PGXS=1 make install
+
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/andrielfn/pg-ulid.git
+cd $TEMP_DIR/pg-ulid
+USE_PGXS=1 make install
+  
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/phillbaker/pg_migrate.git
+cd $TEMP_DIR/pg_migrate/
+USE_PGXS=1 make install 
+  
+cd $TEMP_DIR 
+git clone --depth 1 https://github.com/df7cb/pg_filedump.git
+cd $TEMP_DIR/pg_filedump/  
+USE_PGXS=1 make install
+
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/petere/pgpcre
+cd $TEMP_DIR/pgpcre
+USE_PGXS=1 make install
+
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/omniti-labs/pg_jobmon
+cd $TEMP_DIR/pg_jobmon
+USE_PGXS=1 make install
+
+cd $TEMP_DIR
+git clone --depth 1 https://github.com/pgpartman/pg_partman
+cd $TEMP_DIR/pg_partman
+USE_PGXS=1 make install
+  
+cd $TEMP_DIR
+git clone --depth 1 https://gitee.com/seanguo_007/plpgsql_pg4ml.git
+cd $TEMP_DIR/plpgsql_pg4ml
+USE_PGXS=1 make install
+
+cd $TEMP_DIR    
+cp pgmq--1.1.1.sql /usr/share/postgresql/14/extension/    
+cp pgmq.control /usr/share/postgresql/14/extension/    
+cp pgmq.so /usr/lib/postgresql/14/lib/
+    
+cd $TEMP_DIR    
+cp pg_later--0.0.13.sql /usr/share/postgresql/14/extension/    
+cp pg_later.control /usr/share/postgresql/14/extension/    
+cp pg_later.so /usr/lib/postgresql/14/lib/
+
+cd $TEMP_DIR    
+cp vectorize--0.7.0.sql /usr/share/postgresql/14/extension/    
+cp vectorize.control /usr/share/postgresql/14/extension/    
+cp vectorize.so /usr/lib/postgresql/14/lib/
+
+cd $TEMP_DIR 
+git clone --depth 1 https://github.com/pgEdge/snowflake
+cd $TEMP_DIR/snowflake
 USE_PGXS=1 make install
   
 cd /usr/lib/postgresql/14  
